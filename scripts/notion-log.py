@@ -5,18 +5,19 @@ Usage:
     python3 -I ~/.claude/scripts/notion-log.py entry.json      # upsert
     python3 -I ~/.claude/scripts/notion-log.py --dry-run entry.json
 
-entry.json shape (every key optional except clickup_id and name):
+entry.json shape (every key optional except task_id and name; clickup_id / clickup_url
+are accepted as aliases):
 {
-  "clickup_id": "CU-abc123",            # any tracker id; the upsert key
-  "name": "Contract OTP limits",
-  "clickup_url": "https://app.clickup.com/t/abc123",
-  "prs": ["https://github.com/.../pull/395"],
-  "repo": ["backend", "user-app"],
+  "task_id": "PROJ-123",                 # any tracker id (ClickUp, Jira, Linear, GitHub); the upsert key
+  "name": "Login OTP rate limit",
+  "task_url": "https://tracker.example.com/PROJ-123",
+  "prs": ["https://github.com/example/api/pull/42"],
+  "repo": ["api", "mobile"],
   "area": ["auth"],
   "risk": "high",
   "status": "Done",
   "shipped_on": "2026-10-08",
-  "spawned_from": "CU-869fdnkeq",
+  "spawned_from": "PROJ-100",
   "surprised_me": "...",
   "how_it_works": "...",
   "would_bite_again": "...",
@@ -79,9 +80,9 @@ def clean(props):
 
 
 # ---- lookups -----------------------------------------------------------------
-def find_task(clickup_id):
+def find_task(task_id):
     res = call("POST", f"/databases/{DB['tasks']}/query", {
-        "filter": {"property": "ClickUp ID", "rich_text": {"equals": clickup_id}}, "page_size": 1})
+        "filter": {"property": "Task ID", "rich_text": {"equals": task_id}}, "page_size": 1})
     return res["results"][0]["id"] if res["results"] else None
 
 
@@ -101,12 +102,16 @@ def main():
     if not args:
         sys.exit(__doc__)
     e = json.load(open(args[0]))
-    cid, name = e["clickup_id"], e["name"]
+    cid = e.get("task_id") or e.get("clickup_id")
+    if not cid:
+        sys.exit("entry needs task_id")
+    name = e["name"]
+    task_url = e.get("task_url") or e.get("clickup_url")
 
     props = clean({
         "Name": title(name),
-        "ClickUp ID": rt(cid),
-        "ClickUp URL": {"url": e.get("clickup_url")} if e.get("clickup_url") else None,
+        "Task ID": rt(cid),
+        "Task URL": {"url": task_url} if task_url else None,
         "PRs": rt("\n".join(e.get("prs", []))) if e.get("prs") else None,
         "Repo": multi(e.get("repo")),
         "Area": multi(e.get("area")),

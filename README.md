@@ -13,7 +13,7 @@ The PR records *what* changed. The log records *why*, and what you would do diff
 3. You edit; nothing is sent until you confirm.
 4. `scripts/notion-log.py` upserts a Task page and adds Decision and Question rows in your Notion.
 
-Re-running is safe. The task is matched by its ID, and rows whose title already exists for that task are skipped.
+Re-running is safe. The task is matched by its Task ID, and rows whose title already exists for that task are skipped.
 
 ## Setup (about 10 minutes)
 
@@ -65,13 +65,13 @@ Tasks is the parent. Decisions and Questions each have a **Task** relation back 
 
 | Database | Key properties |
 | --- | --- |
-| Tasks | Name, ClickUp ID (upsert key), ClickUp URL, PRs, Repo, Area, Risk, Status, Shipped on, Surprised me, How it works, Would bite again, Spawned from, Last reviewed, Review score, Review due (formula), Decision count and Quiz avg (rollups) |
+| Tasks | Name, Task ID (upsert key), Task URL, PRs, Repo, Area, Risk, Status, Shipped on, Surprised me, How it works, Would bite again, Spawned from, Last reviewed, Review score, Review due (formula), Decision count and Quiz avg (rollups) |
 | Decisions | Decision, Why, Alternatives rejected, Impact, Kind (product, architecture, security, workaround, deferred, process), Reversible, Task |
 | Questions | Question, Source (quiz, I asked, should have asked), My answer, Correct answer, Rating 1–5, Category, Task |
 
 **Review loop.** `Review due` turns true 14 days after `Last reviewed`, or immediately once a task is Done and never reviewed. Filter Tasks on it, answer the quiz rows from memory, fill `My answer`, score yourself in `Review score`, set `Last reviewed`.
 
-The task ID is called *ClickUp ID* because that is what I use. The script treats it as an opaque string, so Jira keys, Linear ids or GitHub issue numbers work unchanged.
+Task ID is an opaque string: ClickUp ids, Jira keys, Linear ids or GitHub issue numbers all work. The JSON keys `clickup_id` / `clickup_url` are accepted as aliases of `task_id` / `task_url`.
 
 ## Writing a good entry
 

@@ -1,6 +1,6 @@
 ---
 name: log
-description: Log this session's learnings (decisions, insights, questions, quiz) for a task to the personal Notion "Engineering learnings" databases. Use when the user says /log, "log this", "save learnings", or when a PR is opened or a task reaches Done and the user wants the insight captured.
+description: Log this session's learnings (decisions, insights, questions, quiz) for a task to the personal Notion "Engineering learnings" databases (any task tracker). Use when the user says /log, "log this", "save learnings", or when a PR is opened or a task reaches Done and the user wants the insight captured.
 ---
 
 # /log — capture learnings to Notion
@@ -11,7 +11,7 @@ Setup and the Notion template: https://github.com/swastij/claude-log-skill
 
 ## Steps
 
-1. **Identify the task.** Task ID (ClickUp `CU-...` by default; any tracker id works, it is only used as the upsert key) from the branch name, PR body or the user. If none exists, ask. Collect PR URLs for every repo touched.
+1. **Identify the task.** Task ID (ClickUp, Jira, Linear, GitHub issue; any id works, it is only the upsert key) from the branch name, PR body or the user. If none exists, ask. Collect PR URLs for every repo touched.
 
 2. **Draft the entry** from the session. Write it as JSON (shape in the script docstring) and SHOW it to the user as a short readable summary, not raw JSON. Rules:
    - `surprised_me` / `how_it_works` / `would_bite_again`: one paragraph each, mechanism not diff. Leave empty if the task was trivial; never pad.
@@ -25,7 +25,7 @@ Setup and the Notion template: https://github.com/swastij/claude-log-skill
 
 4. **Wait for the user's edits.** Apply them to the JSON. Do not send before they confirm.
 
-5. **Send:** `python3 -I ~/.claude/scripts/notion-log.py <file>`. Report the script's output lines verbatim. Re-running is safe: task is upserted by task ID, rows with an existing title are skipped.
+5. **Send:** `python3 -I ~/.claude/scripts/notion-log.py <file>`. Report the script's output lines verbatim. Re-running is safe: task is upserted by Task ID, rows with an existing title are skipped.
 
 ## Don'ts
 - Don't put anything secret (tokens, customer data) in an entry.

@@ -1,21 +1,21 @@
 {
-  "clickup_id": "CU-abc123",
-  "name": "Contract OTP limits",
-  "clickup_url": "https://app.clickup.com/t/abc123",
-  "prs": ["https://github.com/<org>/backend/pull/395"],
-  "repo": ["backend", "user-app"],
+  "task_id": "PROJ-123",
+  "name": "Login OTP rate limit",
+  "task_url": "https://tracker.example.com/PROJ-123",
+  "prs": ["https://github.com/example/api/pull/42"],
+  "repo": ["api", "mobile"],
   "area": ["auth"],
   "risk": "high",
   "status": "Done",
   "shipped_on": "2026-10-08",
   "surprised_me": "The OTP lock is held for the whole window, not reset on success, so a legitimate user who hits the cap waits out the full hour.",
-  "how_it_works": "Rate limiter keys on contract id + phone; counts in Redis with TTL = window; the guard runs before the SMS provider call so capped attempts cost nothing.",
+  "how_it_works": "The limiter keys on account id + phone number; counts in Redis with TTL = window; the guard runs before the SMS provider call so capped attempts cost nothing.",
   "would_bite_again": "Limits are constants, not config; changing them needs a deploy.",
   "decisions": [
     {
       "decision": "OTP retry limit 3/hour, 5/day",
       "why": "Stops SMS pumping while leaving room for a genuine mistyped number.",
-      "alternatives": "CAPTCHA (hurts mobile conversion); per-IP limit (shared NAT).",
+      "alternatives": "CAPTCHA (hurts mobile conversion); per-IP limit (users behind shared NAT).",
       "impact": "Support may see 'locked out' tickets; documented in the help centre.",
       "kind": "security",
       "reversible": true
