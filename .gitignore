@@ -1,0 +1,5 @@
+.notion-token
+.notion-learnings.json
+log-*.json
+__pycache__/
+.DS_Store
