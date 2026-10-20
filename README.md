@@ -6,6 +6,8 @@ The PR records *what* changed. The log records *why*, and what you would do diff
 
 **Notion template:** [Engineering learnings — Template](https://disco-pamphlet-4c7.notion.site/Engineering-learnings-Template-draft-3ffc24a88e9381928563c406b6f63dfb)
 
+![The three Notion databases, Tasks, Decisions and Questions, with the example row](docs/notion-template-preview.png)
+
 ## How it works
 
 1. You type `/log` in Claude Code at the end of a task session (PR opened, or ticket Done).
