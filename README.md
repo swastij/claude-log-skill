@@ -4,7 +4,7 @@ A `/log` skill for [Claude Code](https://claude.com/claude-code) that captures w
 
 The PR records *what* changed. The log records *why*, and what you would do differently.
 
-**Notion template:** [Engineering learnings — Template](https://app.notion.com/p/Engineering-learnings-Template-draft-3ffc24a88e9381928563c406b6f63dfb?source=copy_link)
+**Notion template:** [Engineering learnings — Template](https://disco-pamphlet-4c7.notion.site/Engineering-learnings-Template-draft-3ffc24a88e9381928563c406b6f63dfb)
 
 ## How it works
 
@@ -19,7 +19,7 @@ Re-running is safe. The task is matched by its Task ID, and rows whose title alr
 
 ### 1. Duplicate the Notion template
 
-Open the [template](https://app.notion.com/p/Engineering-learnings-Template-draft-3ffc24a88e9381928563c406b6f63dfb?source=copy_link) and click **Duplicate** (top right). It copies one page with three linked databases: **Tasks**, **Decisions**, **Questions**. Property names must stay as they are; the script addresses them by name. Delete the example row once you have seen the shape.
+Open the [template](https://disco-pamphlet-4c7.notion.site/Engineering-learnings-Template-draft-3ffc24a88e9381928563c406b6f63dfb) and click **Duplicate** (top right). It copies one page with three linked databases: **Tasks**, **Decisions**, **Questions**. Property names must stay as they are; the script addresses them by name. Delete the example row once you have seen the shape.
 
 ### 2. Create a Notion integration
 
